@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>数独挑战</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <div id="start-screen" class="screen active">
+            <h1>数独挑战</h1>
+            <div class="menu-buttons">
+                <button class="menu-btn" onclick="showDifficultySelect()">开始游戏</button>
+                <button class="menu-btn" onclick="showDailyChallenge()">每日挑战</button>
+                <button class="menu-btn" onclick="showLevelMode()">关卡模式</button>
+                <button class="menu-btn" onclick="showRecords()">最佳记录</button>
+            </div>
+        </div>
+
+        <div id="difficulty-screen" class="screen">
+            <h2>选择难度</h2>
+            <div class="difficulty-buttons">
+                <button class="diff-btn easy" onclick="startNewGame('easy')">简单</button>
+                <button class="diff-btn medium" onclick="startNewGame('medium')">中等</button>
+                <button class="diff-btn hard" onclick="startNewGame('hard')">困难</button>
+            </div>
+            <button class="back-btn" onclick="showStartScreen()">返回</button>
+        </div>
+
+        <div id="level-screen" class="screen">
+            <h2>关卡模式</h2>
+            <div class="level-info">关卡 <span id="current-level-display">1</span> / 100</div>
+            <div class="level-nav">
+                <button onclick="changeLevel(-1)">上一关</button>
+                <button onclick="changeLevel(1)">下一关</button>
+            </div>
+            <div class="level-progress">
+                <div class="progress-bar" id="level-progress-bar"></div>
+            </div>
+            <button class="start-level-btn" onclick="startLevelMode()">开始挑战</button>
+            <button class="back-btn" onclick="showStartScreen()">返回</button>
+        </div>
+
+        <div id="daily-screen" class="screen">
+            <h2>每日挑战</h2>
+            <div class="daily-date" id="daily-date-display"></div>
+            <div class="daily-stats">
+                <div>今日挑战完成次数: <span id="daily-completed">0</span></div>
+                <div>最快完成时间: <span id="daily-best">--:--</span></div>
+            </div>
+            <button class="start-daily-btn" onclick="startDailyChallenge()">开始挑战</button>
+            <button class="back-btn" onclick="showStartScreen()">返回</button>
+        </div>
+
+        <div id="records-screen" class="screen">
+            <h2>最佳记录</h2>
+            <div class="records-list" id="records-list"></div>
+            <button class="back-btn" onclick="showStartScreen()">返回</button>
+        </div>
+
+        <div id="game-screen" class="screen">
+            <div class="game-header">
+                <div class="game-info">
+                    <span id="game-mode">简单模式</span>
+                    <span id="game-level"></span>
+                </div>
+                <div class="timer" id="timer">00:00</div>
+                <div class="game-actions">
+                    <button class="action-btn" onclick="togglePause()" id="pause-btn">暂停</button>
+                    <button class="action-btn" onclick="resetGame()">重置</button>
+                    <button class="action-btn hint-btn" onclick="giveHint()">提示</button>
+                </div>
+            </div>
+
+            <div id="pause-overlay" class="pause-overlay hidden">
+                <div class="pause-content">
+                    <h3>游戏暂停</h3>
+                    <button class="menu-btn" onclick="togglePause()">继续</button>
+                    <button class="menu-btn" onclick="exitGame()">退出</button>
+                </div>
+            </div>
+
+            <div class="sudoku-container">
+                <svg id="box-indicators" class="box-indicators"></svg>
+                <div class="sudoku-grid" id="sudoku-grid"></div>
+            </div>
+
+            <div class="number-pad" id="number-pad">
+                <button class="num-btn" data-num="1">1</button>
+                <button class="num-btn" data-num="2">2</button>
+                <button class="num-btn" data-num="3">3</button>
+                <button class="num-btn" data-num="4">4</button>
+                <button class="num-btn" data-num="5">5</button>
+                <button class="num-btn" data-num="6">6</button>
+                <button class="num-btn" data-num="7">7</button>
+                <button class="num-btn" data-num="8">8</button>
+                <button class="num-btn" data-num="9">9</button>
+                <button class="num-btn delete-btn" data-num="0">✕</button>
+            </div>
+        </div>
+
+        <div id="win-screen" class="screen">
+            <div class="win-content">
+                <h2>恭喜通关！</h2>
+                <div class="win-stats">
+                    <div>用时: <span id="win-time">00:00</span></div>
+                    <div>难度: <span id="win-difficulty"></span></div>
+                </div>
+                <div id="new-record" class="new-record hidden">新纪录！</div>
+                <div class="win-actions">
+                    <button class="menu-btn" onclick="startNewGame(currentDifficulty)">再来一局</button>
+                    <button class="menu-btn" onclick="showStartScreen()">返回主页</button>
+                </div>
+            </div>
+            <div id="fireworks" class="fireworks"></div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
